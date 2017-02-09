@@ -68,6 +68,10 @@ INSERT INTO APP_USER_USER_PROFILE (user_id, user_profile_id)
   where user.sso_id='sam' and profile.type='ADMIN';
  
 /* Create persistent_logins Table used to store rememberme related stuff*/
+/* 
+login: admin
+passwd: 111
+*/
 CREATE TABLE persistent_logins (
     username VARCHAR(64) NOT NULL,
     series VARCHAR(64) NOT NULL,
