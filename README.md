@@ -1,7 +1,7 @@
 # MiS
 # Технологии
 <ul>
-<li>Spring MVC, Security<\li>
+<li>Spring MVC, Security</li>
 <li>Hibernate</li>
 <li>MySQL</li>
 <li>Maven</li>
