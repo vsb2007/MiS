@@ -16,7 +16,7 @@
                     <div class="row">
                         <span class="col s12 center-align">Карточка пользователя</span>
                     </div>
-                    <form:form method="POST" modelAttribute="user">
+                    <form:form method="POST" modelAttribute="user" id="regForm">
                         <form:input type="hidden" path="id" id="id"/>
                         <div class="row">
                             <div class="col s12">
@@ -58,9 +58,11 @@
                                             <form:input type="text" class="validate" path="ssoId" id="ssoId"
                                                         disabled="true"/>
                                             <label for="patronymicName">Логин</label>
+                                            <form:input type="hidden" class="validate" path="password" id="password"/>
                                         </c:when>
                                         <c:otherwise>
                                             <form:input type="text" class="validate" path="ssoId" id="ssoId"/>
+                                            <form:input type="hidden" class="validate" path="password" id="password"/>
                                             <label for="patronymicName">Логин</label>
                                         </c:otherwise>
                                     </c:choose>
@@ -68,14 +70,6 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col s12">
-                                <div class="input-field col s12">
-                                    <form:input type="password" class="validate" path="password" id="password"/>
-                                    <label for="password">Пароль</label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col s12">
                                 <div class="input-field col s12">
@@ -120,7 +114,7 @@
                             </div>
                         </c:if>
                         <div class="row">
-                            <div class="form-actions floatRight">
+                            <div class="col s12">
                                 <c:choose>
                                     <c:when test="${edit}">
                                         <input type="submit" value="Update" class="btn btn-primary btn-sm"/> or <a
@@ -133,12 +127,18 @@
                                 </c:choose>
                             </div>
                         </div>
+                        <input type="hidden" name="" value="${_csrf.token}" id="token"/>
                     </form:form>
                     <div class="row">
                         <div class="col s12">
-                            <div class="alert alert-success lead">
-                                    ${success}
-                            </div>
+                            <button class="btn waves-effect waves-light red" type="" name="action" onclick="sendFormChangePassword()">Поменять пароль
+                                <i class="material-icons right">replay</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <span id="results">${success}</span>
                         </div>
                     </div>
                 </sec:authorize>
@@ -150,5 +150,48 @@
     $(document).ready(function () {
         $('select').material_select();
     });
+    <c:if test="${edit}">
+    function sendFormChangePassword2() {
+        var msg = $('#regForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'updatePassword',
+            data: msg,
+            success: function (data) {
+                if (data == 1)
+                    document.getElementById("results").innerHTML = "Пароль выслан";
+                else document.getElementById("results").innerHTML = "Ошибка смены пароля";
+            },
+            error: function (xhr, str) {
+                //$('.results').html('Возникла ошибка: ' + xhr.responseCode);
+                document.getElementById("results").innerHTML = "Возникла ошибка: " + xhr.responseCode;
+            }
+        });
+
+    }
+    function sendFormChangePassword() {
+        var id = document.getElementById("id");
+        var xmlhttp;
+        var idSpan = "results";
+        document.getElementById(idSpan).innerHTML = "loading...";
+        //document.getElementById(idSpan).value = orgDogId.value;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById(idSpan).innerHTML = xmlhttp.responseText;
+            }
+        }
+        var token = document.getElementById("token");
+        xmlhttp.open("POST", "updatePassword", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("id=" + id.value + "&_csrf=" + token.value);
+    }
+
+    </c:if>
 </script>
 <%@include file="footer.jsp" %>

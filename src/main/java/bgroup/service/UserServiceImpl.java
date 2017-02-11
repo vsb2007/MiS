@@ -1,7 +1,9 @@
 package bgroup.service;
 
 import java.util.List;
+import java.util.Random;
 
+import bgroup.model.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import bgroup.dao.UserDao;
 import bgroup.model.User;
+import bgroup.model.SmsSender;
 
 
 @Service("userService")
@@ -23,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SmsSender smsSender;
 
     public User findById(int id) {
         return dao.findById(id);
@@ -93,4 +99,29 @@ public class UserServiceImpl implements UserService {
         return (user == null || ((id != null) && (user.getId() == id)));
     }
 
+    public boolean changePassword(String idString) {
+        int id = -1;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (Exception e) {
+
+        }
+        User entity = dao.findById(id);
+        if (entity == null) return false;
+        if (entity.getPhone() == null) return false;
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        int _$ = (int)(Math.random()*9);
+        for (int i = 0; i < 10; i++) {
+            if (i == _$)
+                sb.append('$');
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String newPassword = sb.toString();
+        entity.setPassword(passwordEncoder.encode(newPassword));
+        smsSender.sendSms(entity.getPhone(), newPassword);
+        return true;
+    }
 }

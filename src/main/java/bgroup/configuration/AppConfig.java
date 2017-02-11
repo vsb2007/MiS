@@ -1,5 +1,6 @@
 package bgroup.configuration;
 
+import bgroup.model.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -84,5 +85,10 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     public void configurePathMatch(PathMatchConfigurer matcher) {
         matcher.setUseRegisteredSuffixPatternMatch(true);
     }
+
+   /* @Bean
+	public SmsSender smsSender(){
+    	return new SmsSender();
+	}*/
 }
 

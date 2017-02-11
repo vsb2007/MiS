@@ -1,6 +1,7 @@
 package bgroup.dao;
 
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -65,5 +66,4 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		User user = (User)crit.uniqueResult();
 		delete(user);
 	}
-
 }

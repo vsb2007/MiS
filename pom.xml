@@ -13,6 +13,9 @@
         <springsecurity.version>4.0.4.RELEASE</springsecurity.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <mysql.connector.version>5.1.40</mysql.connector.version>
+        <ch.commons.gsm.version>3.0.0</ch.commons.gsm.version>
+        <ch.commons.charset.version>3.0.0</ch.commons.charset.version>
+        <ch.smpp.version>5.0.1</ch.smpp.version>
     </properties>
 
     <dependencies>
@@ -109,6 +112,26 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+        </dependency>
+        <!-- Cloudhopper smpp library -->
+
+        <dependency>
+            <groupId>com.cloudhopper</groupId>
+            <artifactId>ch-smpp</artifactId>
+            <version>${ch.smpp.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudhopper</groupId>
+            <artifactId>ch-commons-gsm</artifactId>
+            <version>${ch.commons.gsm.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>ch-commons-charset</artifactId>
+            <groupId>com.cloudhopper</groupId>
+            <type>jar</type>
+            <version>${ch.commons.charset.version}</version>
         </dependency>
 
     </dependencies>

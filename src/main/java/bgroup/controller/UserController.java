@@ -140,6 +140,8 @@ public class UserController {
 		userService.updateUser(user);
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
+		model.addAttribute("edit", true);
+		model.addAttribute("user", user);
 		return "registration";
 	}
 
