@@ -6,7 +6,9 @@ public enum UserProfileType implements Serializable{
 	USER("USER"),
 	DBA("DBA"),
 	LOGIN("LOGIN"),
+	SERVICELIST("SERVICELIST"),
 	ADMIN("ADMIN");
+
 
 	
 	String userProfileType;

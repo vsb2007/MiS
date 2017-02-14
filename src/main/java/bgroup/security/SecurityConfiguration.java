@@ -80,13 +80,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-    @Bean
+   /* @Bean
     public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
         PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
                 "remember-me", userDetailsService, tokenRepository);
         return tokenBasedservice;
     }
-
+*/
     @Bean
     public AuthenticationTrustResolver getAuthenticationTrustResolver() {
         return new AuthenticationTrustResolverImpl();

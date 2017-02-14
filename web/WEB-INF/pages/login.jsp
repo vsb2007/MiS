@@ -35,6 +35,7 @@
                         <label for="password">Password</label>
                     </div>
                 </div>
+                <%--
                 <div class="row">
                     <div class="col s6 offset-s2">
                         <p>
@@ -44,6 +45,7 @@
                         </p>
                     </div>
                 </div>
+                --%>
                 <div class="row">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="col s6 offset-s2">

@@ -62,7 +62,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <form:input type="text" class="validate" path="ssoId" id="ssoId"/>
-                                            <form:input type="hidden" class="validate" path="password" id="password"/>
+                                            <form:input type="hidden" class="validate" path="password" id="password" value="111"/>
                                             <label for="patronymicName">Логин</label>
                                         </c:otherwise>
                                     </c:choose>
@@ -184,6 +184,9 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById(idSpan).innerHTML = xmlhttp.responseText;
+            }
+            else if (xmlhttp.status != 200 && xmlhttp.status != 0){
+                document.getElementById(idSpan).innerHTML = "Ошибка какая-то возникла: " + xmlhttp.status;
             }
         }
         var token = document.getElementById("token");

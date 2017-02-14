@@ -1,7 +1,9 @@
 package bgroup.controller;
 
+import bgroup.model.ServiceList;
 import bgroup.model.User;
 import bgroup.model.UserProfile;
+import bgroup.service.ServiceListService;
 import bgroup.service.UserProfileService;
 import bgroup.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,16 +34,19 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	
+
+	@Autowired
+	ServiceListService serviceListService;
+
 	@Autowired
 	UserProfileService userProfileService;
 	
 	@Autowired
 	MessageSource messageSource;
 
-	@Autowired
+	/*@Autowired
 	PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-	
+	*/
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
 
@@ -56,6 +62,14 @@ public class UserController {
 	public String listUsers(ModelMap model) {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "userslist";
+	}
+
+	@RequestMapping(value = { "serviceList" }, method = RequestMethod.GET)
+	public String serviceList(ModelMap model) {
+		List<ServiceList> serviceLists = serviceListService.findAllServiceList();
+		model.addAttribute("serviceList", serviceLists);
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "userslist";
 	}
@@ -197,8 +211,8 @@ public class UserController {
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null){
-			//new SecurityContextLogoutHandler().logout(request, response, auth);
-			persistentTokenBasedRememberMeServices.logout(request, response, auth);
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			//persistentTokenBasedRememberMeServices.logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
 		return "redirect:/login?logout";
