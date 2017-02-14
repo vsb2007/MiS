@@ -65,7 +65,7 @@ VALUES ('admin','$10$al/Ew06.j16agrGcb3uUhuPv0MQhhXiwOcR9K8MlfV.AcHpCpcRbO');
 /* Populate JOIN Table */
 INSERT INTO APP_USER_USER_PROFILE (user_id, user_profile_id)
   SELECT user.id, profile.id FROM app_user user, user_profile profile
-  where user.sso_id='sam' and profile.type='ADMIN';
+  where user.sso_id='admin' and profile.type='ADMIN';
  
 /* Create persistent_logins Table used to store rememberme related stuff*/
 /* 
