@@ -8,6 +8,10 @@
     <li><a href="serviceList"><i class="material-icons left">view_list</i>Список Услуг</a></li>
 </sec:authorize>
 
+<sec:authorize access="hasRole('ROLE_USER')">
+    <li><a href="serviceList"><i class="material-icons left">view_list</i>Список Услуг</a></li>
+</sec:authorize>
+
 
 <sec:authorize access="hasRole('ROLE_LOGIN')">
     <li><a href="login"><i class="material-icons left">settings</i>Настройки</a></li>

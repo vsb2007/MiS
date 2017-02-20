@@ -39,7 +39,7 @@ public class ServiceListImpl extends AbstractDao<Integer, ServiceList> implement
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("deleted", false));
         criteria.add(Restrictions.eq("paid", false));
-        criteria.addOrder(Order.asc("date"));
+        criteria.addOrder(Order.asc("dateCreate"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         List<ServiceList> serviceLists = (List<ServiceList>) criteria.list();
 

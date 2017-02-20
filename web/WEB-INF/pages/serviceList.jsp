@@ -12,44 +12,38 @@
             <div class="col s12">
                 <%@ include file="menu_cols.jsp" %>
                 <div class="row">
-                    <span class="col s12 center-align">Список пользователей </span>
+                    <span class="col s12 center-align">Список услуг </span>
                 </div>
                 <div class="row">
                     <div class="col s3 m2 l2">
-                        <h6>Фамилия</h6>
+                        <h6>Дата</h6>
                     </div>
                     <div class="col s3 m2 l2">
-                        <h6>Имя</h6>
+                        <h6>Код</h6>
                     </div>
                     <div class="col l2 hide-on-med-and-down">
-                        <h6>Телефон</h6>
+                        <h6>Наименование</h6>
                     </div>
                     <div class="col l2 hide-on-med-and-down">
-                        <h6>Логин</h6>
+                        <h6>Сумма</h6>
                     </div>
 
                 </div>
-                <c:forEach items="${users}" var="user">
+                <c:forEach items="${serviceList}" var="service">
                     <div class="row ">
                         <div class="col s3 m2 l2">
-                            <p class="collection-item">${user.lastName}</p>
+                            <p class="collection-item">${service.dateDone}</p>
                         </div>
                         <div class="col s3 m2 l2">
-                            <p class="collection-item">${user.firstName}</p>
+                            <p class="collection-item">${service.serviceCode}</p>
                         </div>
                         <div class="col l2 hide-on-med-and-down">
-                            <p class="collection-item">${user.phone}</p>
+                            <p class="collection-item">${service.serviceName}</p>
                         </div>
                         <div class="col l2 hide-on-med-and-down">
-                            <p class="collection-item">${user.ssoId}</p>
+                            <p class="collection-item">${service.sumPayClient}</p>
                         </div>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                            <div class="col s2 m1 l1">
-                                <a href="<c:url value='/edit-user-${user.ssoId}' />"
-                                   class="btn-floating green darken-4 ">
-                                    <i class="large material-icons tiny">mode_edit</i>
-                                </a>
-                            </div>
                             <div class="col s2 m1 l1">
                                 <a href="<c:url value='/delete-user-${user.ssoId}' />"
                                    class="btn-floating red darken-4">

@@ -1,6 +1,9 @@
 package bgroup.service;
 
+import bgroup.dao.ServiceListDao;
+import bgroup.dao.UserDao;
 import bgroup.model.ServiceList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +30,10 @@ public class ServiceListServiceImpl implements ServiceListService {
     public void deleteServiceListById(int id) {
 
     }
-
+    @Autowired
+    private ServiceListDao serviceListDao;
     public List<ServiceList> findAllServiceList() {
-        return null;
+        List<ServiceList> serviceLists = serviceListDao.findAllServiceList();
+        return serviceLists;
     }
 }

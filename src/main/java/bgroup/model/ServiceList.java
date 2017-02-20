@@ -2,7 +2,6 @@ package bgroup.model;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,13 +22,15 @@ public class ServiceList implements Serializable {
     private Integer id;
 
     @NotEmpty
-    @Column(name = "ID_MIS", nullable = false)
-    private Integer idMis;
+    @Column(name = "DATE_CREATE", nullable = false)
+    @Type(type = "org.hibernate.type.TimestampType")
+    private Timestamp dateCreate;
 
     @NotEmpty
-    @Column(name = "DATETIME_SERVICE", nullable = false)
+    @Column(name = "DATE_DONE", nullable = false)
+    //@Temporal(TemporalType.TIMESTAMP)
     @Type(type = "org.hibernate.type.TimestampType")
-    private Timestamp date;
+    private Timestamp dateDone;
 
     @NotEmpty
     @Column(name = "PARTNER_ID", nullable = false)
@@ -52,6 +53,10 @@ public class ServiceList implements Serializable {
     private String clientFio;
 
     @NotEmpty
+    @Column(name = "ID_MIS", nullable = false)
+    private Integer idMis;
+
+    @NotEmpty
     @Column(name = "SERVICE_CODE", nullable = false,length = 24)
     private String serviceCode;
 
@@ -67,6 +72,11 @@ public class ServiceList implements Serializable {
     @Column(name = "PAID", columnDefinition = "BIT default 0")
     private Boolean paid;
 
+    @Column(name = "DATE_PAID")
+    @Type(type = "org.hibernate.type.TimestampType")
+    private Timestamp datePaid;
+
+
     @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "DELETED", columnDefinition = "BIT default 0")
     private Boolean deleted;
@@ -79,20 +89,20 @@ public class ServiceList implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdMis() {
-        return idMis;
+    public Timestamp getDateCreate() {
+        return dateCreate;
     }
 
-    public void setIdMis(Integer idMis) {
-        this.idMis = idMis;
+    public void setDateCreate(Timestamp dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getDateDone() {
+        return dateDone;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setDateDone(Timestamp dateDone) {
+        this.dateDone = dateDone;
     }
 
     public Integer getPartnerId() {
@@ -135,6 +145,14 @@ public class ServiceList implements Serializable {
         this.clientFio = clientFio;
     }
 
+    public Integer getIdMis() {
+        return idMis;
+    }
+
+    public void setIdMis(Integer idMis) {
+        this.idMis = idMis;
+    }
+
     public String getServiceCode() {
         return serviceCode;
     }
@@ -165,6 +183,14 @@ public class ServiceList implements Serializable {
 
     public void setPaid(Boolean paid) {
         this.paid = paid;
+    }
+
+    public Timestamp getDatePaid() {
+        return datePaid;
+    }
+
+    public void setDatePaid(Timestamp datePaid) {
+        this.datePaid = datePaid;
     }
 
     public Boolean getDeleted() {
