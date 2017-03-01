@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,8 +27,11 @@ public class User implements Serializable {
     private Integer id;
 
     @NotEmpty
-    @Column(name = "SSO_ID", unique = true, nullable = false)
-    private String ssoId;
+    @Column(name = "USER_NAME", unique = true, nullable = false)
+    private String userName;
+
+    @Column(name = "MIS_ID")
+    private Integer misId;
 
     @NotEmpty
     @Column(name = "PASSWORD", nullable = false)
@@ -73,12 +75,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getSsoId() {
-        return ssoId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setSsoId(String ssoId) {
-        this.ssoId = ssoId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -153,12 +155,20 @@ public class User implements Serializable {
         this.userProfiles = userProfiles;
     }
 
+    public Integer getMisId() {
+        return misId;
+    }
+
+    public void setMisId(Integer misId) {
+        this.misId = misId;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((ssoId == null) ? 0 : ssoId.hashCode());
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
         return result;
     }
 
@@ -176,10 +186,10 @@ public class User implements Serializable {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (ssoId == null) {
-            if (other.ssoId != null)
+        if (userName == null) {
+            if (other.userName != null)
                 return false;
-        } else if (!ssoId.equals(other.ssoId))
+        } else if (!userName.equals(other.userName))
             return false;
         return true;
     }
@@ -190,7 +200,7 @@ public class User implements Serializable {
      */
     @Override
     public String toString() {
-        return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+        return "User [id=" + id + ", userName=" + userName + ", password=" + password
                 + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", email=" + email + "]";
     }

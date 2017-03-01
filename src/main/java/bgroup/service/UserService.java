@@ -6,20 +6,22 @@ import bgroup.model.User;
 
 
 public interface UserService {
-	
-	User findById(int id);
-	
-	User findBySSO(String sso);
-	
-	void saveUser(User user);
-	
-	void updateUser(User user);
-	
-	void deleteUserBySSO(String sso);
 
-	List<User> findAllUsers(); 
-	
-	boolean isUserSSOUnique(Integer id, String sso);
+    User findById(int id);
 
-	boolean changePassword(String id);
+    User findByUserName(String userName);
+
+    void saveUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUserByUserName(String userName);
+
+    List<User> findAllUsers();
+
+    boolean isUserNameUnique(Integer id, String username);
+
+    boolean changePassword(String id);
+
+    boolean isHasRole(String userName, String role);
 }

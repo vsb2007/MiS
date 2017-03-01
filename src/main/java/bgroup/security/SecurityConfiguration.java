@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/").access("hasRole('LOGIN')")
                 .and()
                 .formLogin().loginPage("/login").permitAll()
-                .loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password").and()
+                .loginProcessingUrl("/login").usernameParameter("userName").passwordParameter("password").and()
                 .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
                 .tokenValiditySeconds(86400)
                 .and()

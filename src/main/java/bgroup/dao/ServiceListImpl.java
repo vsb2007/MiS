@@ -28,7 +28,7 @@ public class ServiceListImpl extends AbstractDao<Integer, ServiceList> implement
     public ServiceList findByPartnerID(int id) {
         logger.info("PasrtnerID : {}", id);
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("ssoId", id));
+        crit.add(Restrictions.eq("userName", id));
         ServiceList serviceList = (ServiceList) crit.uniqueResult();
 
         return serviceList;
@@ -63,7 +63,7 @@ public class ServiceListImpl extends AbstractDao<Integer, ServiceList> implement
 
     public void deleteById(int id) {
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("ssoId", id));
+        crit.add(Restrictions.eq("userName", id));
         ServiceList serviceList = (ServiceList) crit.uniqueResult();
         delete(serviceList);
     }

@@ -15,5 +15,6 @@ public interface ServiceListService {
 
     void deleteServiceListById(int id);
 
-    List<ServiceList> findAllServiceList();
+    List<ServiceList> findAllOpenServiceListByPartnerId(Integer id);
+
 }

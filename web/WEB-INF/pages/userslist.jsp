@@ -41,17 +41,17 @@
                             <p class="collection-item">${user.phone}</p>
                         </div>
                         <div class="col l2 hide-on-med-and-down">
-                            <p class="collection-item">${user.ssoId}</p>
+                            <p class="collection-item">${user.userName}</p>
                         </div>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
                             <div class="col s2 m1 l1">
-                                <a href="<c:url value='/edit-user-${user.ssoId}' />"
+                                <a href="<c:url value='/edit-user-${user.userName}' />"
                                    class="btn-floating green darken-4 ">
                                     <i class="large material-icons tiny">mode_edit</i>
                                 </a>
                             </div>
                             <div class="col s2 m1 l1">
-                                <a href="<c:url value='/delete-user-${user.ssoId}' />"
+                                <a href="<c:url value='/delete-user-${user.userName}' />"
                                    class="btn-floating red darken-4">
                                     <i class="material-icons small">delete</i>
                                 </a>

@@ -55,13 +55,13 @@
                                 <div class="input-field col s12">
                                     <c:choose>
                                         <c:when test="${edit}">
-                                            <form:input type="text" class="validate" path="ssoId" id="ssoId"
+                                            <form:input type="text" class="validate" path="userName" id="userName"
                                                         disabled="true"/>
                                             <label for="patronymicName">Логин</label>
                                             <form:input type="hidden" class="validate" path="password" id="password"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <form:input type="text" class="validate" path="ssoId" id="ssoId"/>
+                                            <form:input type="text" class="validate" path="userName" id="userName"/>
                                             <form:input type="hidden" class="validate" path="password" id="password" value="111"/>
                                             <label for="patronymicName">Логин</label>
                                         </c:otherwise>
@@ -78,7 +78,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col s12">
                                 <div class="input-field col s12">
@@ -87,6 +86,16 @@
                                                      itemLabel="type" class="initialized" multiple="true"/>
                                     </div>
                                     <label>Роли</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="input-field col s12">
+                                    <div class="select-wrapper">
+                                        <form:input type="text" class="validate" path="misId" id="misId"/>
+                                    </div>
+                                    <label>ID в системе</label>
                                 </div>
                             </div>
                         </div>

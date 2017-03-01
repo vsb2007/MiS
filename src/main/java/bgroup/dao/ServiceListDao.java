@@ -9,8 +9,6 @@ public interface ServiceListDao {
 
     ServiceList findById(int id);
 
-    ServiceList findByPartnerID(int partnerId);
-
     void save(ServiceList serviceList);
 
     void deleteById(int id);

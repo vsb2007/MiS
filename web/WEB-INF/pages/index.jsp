@@ -13,7 +13,7 @@
                 <form action="login" method="POST" class="">
                     <div class="row">
                         <div class="input-field col s6 offset-s2">
-                            <input type="text" class="validate" id="username" name="ssoId" required autofocus/>
+                            <input type="text" class="validate" id="username" name="userName" required autofocus/>
                             <label for="username">Login</label>
                         </div>
                     </div>

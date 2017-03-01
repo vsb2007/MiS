@@ -77,57 +77,6 @@
                     </div>
                 </div>
 
-                    <%--
-                    <div id="divCompany">&nbsp;
-                        <c:if test="${userRed.getCompanyUnit()!=NULL}">
-                            <li ripple>
-                    <span class="item-text">
-                        <select class="dropdown-menu" id="companyId" name="companyId"
-                                onchange="getCompanyUnits(this)">
-                            <option value="-1">Выбрете организацию</option>
-                    <c:forEach items="${companyList}" var="company">
-                        <c:if test="${company.getIdCompany() == userRed.getCompanyUnit().getCompany().getIdCompany()}">
-                            <option value="${company.getIdCompany()}" selected>${company.getCompanyName()}</option>
-                        </c:if>
-                        <c:if test="${company.getIdCompany() != userRed.getCompanyUnit().getCompany().getIdCompany()}">
-                            <option value="${company.getIdCompany()}">${company.getCompanyName()}</option>
-                        </c:if>
-                    </c:forEach>
-                            </select><br>
-                        <span class="secondary-text">
-                            <label for="companyId" class="label">Организация</label>
-                        </span>
-                    </span>
-                            </li>
-                        </c:if>
-                    </div> --%>
-                    <%--
-                    <div id="divCompanyAndUnits">
-                        <c:if test="${userRed.getCompanyUnit()!=NULL}">
-                            <li ripple>
-                    <span class="item-text">
-                        <select class="dropdown-menu" id="companyUnitId" name="companyUnitId">
-                            <option value="-1">Выбрете подразделение</option>
-                            <c:forEach
-                                    items="${companyUnitList}"
-                                    var="companyUnit">
-                                <c:if test="${companyUnit.getIdCompanyUnit() == userRed.getCompanyUnit().getIdCompanyUnit()}">
-                            <option value="${companyUnit.getIdCompanyUnit()}"
-                                    selected>${companyUnit.getCompanyUnitName()}</option>
-                                </c:if>
-                                <c:if test="${companyUnit.getIdCompanyUnit() != userRed.getCompanyUnit().getIdCompanyUnit()}">
-                            <option value="${companyUnit.getIdCompanyUnit()}">${companyUnit.getCompanyUnitName()}
-                            </option>
-                                </c:if>
-                            </c:forEach>
-                            </select><br>
-                        <span class="secondary-text">
-                            <label for="companyUnitId" class="label">Подразделение</label>
-                        </span>
-                    </span>
-                            </li>
-                        </c:if>
-                    </div> --%>
                 <br>
                 <span class="item-text">
     <div class="switch">

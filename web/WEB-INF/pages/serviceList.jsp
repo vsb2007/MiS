@@ -7,68 +7,69 @@
 <%@ include file="header.jsp" %>
 <%@ include file="menu.jsp" %>
 <main>
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <%@ include file="menu_cols.jsp" %>
-                <div class="row">
-                    <span class="col s12 center-align">Список услуг </span>
-                </div>
-                <div class="row">
-                    <div class="col s3 m2 l2">
-                        <h6>Дата</h6>
-                    </div>
-                    <div class="col s3 m2 l2">
-                        <h6>Код</h6>
-                    </div>
-                    <div class="col l2 hide-on-med-and-down">
-                        <h6>Наименование</h6>
-                    </div>
-                    <div class="col l2 hide-on-med-and-down">
-                        <h6>Сумма</h6>
-                    </div>
-
-                </div>
-                <c:forEach items="${serviceList}" var="service">
-                    <div class="row ">
-                        <div class="col s3 m2 l2">
-                            <p class="collection-item">${service.dateDone}</p>
-                        </div>
-                        <div class="col s3 m2 l2">
-                            <p class="collection-item">${service.serviceCode}</p>
-                        </div>
-                        <div class="col l2 hide-on-med-and-down">
-                            <p class="collection-item">${service.serviceName}</p>
-                        </div>
-                        <div class="col l2 hide-on-med-and-down">
-                            <p class="collection-item">${service.sumPayClient}</p>
-                        </div>
-                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                            <div class="col s2 m1 l1">
-                                <a href="<c:url value='/delete-user-${user.ssoId}' />"
-                                   class="btn-floating red darken-4">
-                                    <i class="material-icons small">delete</i>
-                                </a>
-                            </div>
-                        </sec:authorize>
-                    </div>
-                    <div class="divider"></div>
-                </c:forEach>
-            </div>
-            <sec:authorize access="hasRole('ADMIN')">
-                <div class="well">
-                    <a href="<c:url value='/newuser' />" class="btn-floating red darken-4">
-                        <i class="material-icons small left">add</i>Добавить пользователя</a>
-                </div>
-            </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_USER')">
+        <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <div class="alert alert-success lead">
-                        ${success}
+                    <%@ include file="menu_cols.jsp" %>
+                    <div class="row">
+                        <span class="col s12 center-align">Список услуг </span>
+                    </div>
+                    <div class="row">
+                        <div class="col s3 m2 l2">
+                            <h6>Дата</h6>
+                        </div>
+                        <div class="col s3 m2 l2">
+                            <h6>Код</h6>
+                        </div>
+                        <div class="col l2 hide-on-med-and-down">
+                            <h6>Наименование</h6>
+                        </div>
+                        <div class="col l2 hide-on-med-and-down">
+                            <h6>Сумма</h6>
+                        </div>
+                    </div>
+                    <c:forEach items="${serviceList}" var="service">
+                        <div class="row ">
+                            <div class="col s3 m2 l2">
+                                <p class="collection-item">${service.dateDone}</p>
+                            </div>
+                            <div class="col s3 m2 l2">
+                                <p class="collection-item">${service.serviceCode}</p>
+                            </div>
+                            <div class="col l2 hide-on-med-and-down">
+                                <p class="collection-item">${service.serviceName}</p>
+                            </div>
+                            <div class="col l2 hide-on-med-and-down">
+                                <p class="collection-item">${service.sumPayClient}</p>
+                            </div>
+                            <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                <div class="col s2 m1 l1">
+                                    <a href="<c:url value='/delete-user-${user.userName}' />"
+                                       class="btn-floating red darken-4">
+                                        <i class="material-icons small">delete</i>
+                                    </a>
+                                </div>
+                            </sec:authorize>
+                        </div>
+                        <div class="divider"></div>
+                    </c:forEach>
+                </div>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <div class="well">
+                        <a href="<c:url value='/newuser' />" class="btn-floating red darken-4">
+                            <i class="material-icons small left">add</i>Добавить пользователя</a>
+                    </div>
+                </sec:authorize>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="alert alert-success lead">
+                                ${success}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </sec:authorize>
 </main>
 <%@ include file="footer.jsp" %>

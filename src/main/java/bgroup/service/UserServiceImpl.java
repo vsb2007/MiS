@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import bgroup.model.SmsSender;
+import bgroup.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import bgroup.model.User;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao dao;
+    private UserDao userDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -26,11 +27,11 @@ public class UserServiceImpl implements UserService {
     private SmsSender smsSender;
 
     public User findById(int id) {
-        return dao.findById(id);
+        return userDao.findById(id);
     }
 
-    public User findBySSO(String sso) {
-        User user = dao.findBySSO(sso);
+    public User findByUserName(String userName) {
+        User user = userDao.findByUserName(userName);
         return user;
     }
 
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getDeleted() == null) user.setDeleted(false);
         if (user.getBlocked() == null) user.setBlocked(true);
-        dao.save(user);
+        userDao.save(user);
     }
 
     /*
@@ -47,9 +48,9 @@ public class UserServiceImpl implements UserService {
      * It will be updated in db once transaction ends.
      */
     public void updateUser(User user) {
-        User entity = dao.findById(user.getId());
+        User entity = userDao.findById(user.getId());
         if (entity != null) {
-            entity.setSsoId(user.getSsoId());
+            entity.setUserName(user.getUserName());
             /*
             Пароль меняем другим образом
              */
@@ -62,6 +63,9 @@ public class UserServiceImpl implements UserService {
             entity.setLastName(user.getLastName());
             entity.setPatronymicName(user.getPatronymicName());
             entity.setPhone(user.getPhone());
+            if (user.getMisId() != null) {
+                entity.setMisId(user.getMisId());
+            }
             if (user.getBlocked() != null) {
                 entity.setBlocked(user.getBlocked());
             } else {
@@ -76,21 +80,21 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void deleteUserBySSO(String sso) {
-        User entity = dao.findBySSO(sso);
+    public void deleteUserByUserName(String userName) {
+        User entity = userDao.findByUserName(userName);
         if (entity != null) {
             entity.setDeleted(true);
             entity = null;
         }
-        //dao.deleteBySSO(sso);
+        //userDao.deleteByUserName(userName);
     }
 
     public List<User> findAllUsers() {
-        return dao.findAllUsers();
+        return userDao.findAllUsers();
     }
 
-    public boolean isUserSSOUnique(Integer id, String sso) {
-        User user = findBySSO(sso);
+    public boolean isUserNameUnique(Integer id, String userName) {
+        User user = findByUserName(userName);
         return (user == null || ((id != null) && (user.getId() == id)));
     }
 
@@ -101,13 +105,13 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
 
         }
-        User entity = dao.findById(id);
-        if (entity == null) return false;
-        if (entity.getPhone() == null) return false;
+        User user = userDao.findById(id);
+        if (user == null) return false;
+        if (user.getPhone() == null) return false;
         char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        int _$ = (int)(Math.random()*9);
+        int _$ = (int) (Math.random() * 9);
         for (int i = 0; i < 10; i++) {
             if (i == _$)
                 sb.append('$');
@@ -115,8 +119,17 @@ public class UserServiceImpl implements UserService {
             sb.append(c);
         }
         String newPassword = sb.toString();
-        entity.setPassword(passwordEncoder.encode(newPassword));
-        smsSender.sendSms(entity.getPhone(), newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        smsSender.sendSms(user.getPhone(), newPassword);
         return true;
+    }
+
+    public boolean isHasRole(String userName, String role) {
+        User user = userDao.findByUserName(userName);
+        if (user == null) return false;
+        for (UserProfile userProfile : user.getUserProfiles()) {
+            if (userProfile.getType().equals(role)) return true;
+        }
+        return false;
     }
 }

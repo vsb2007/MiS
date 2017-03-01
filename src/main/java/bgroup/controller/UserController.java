@@ -6,6 +6,8 @@ import bgroup.model.UserProfile;
 import bgroup.service.ServiceListService;
 import bgroup.service.UserProfileService;
 import bgroup.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -13,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ import java.util.Locale;
 @RequestMapping("/")
 @SessionAttributes("roles")
 public class UserController {
+    static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
@@ -68,14 +70,21 @@ public class UserController {
 
     @RequestMapping(value = {"serviceList"}, method = RequestMethod.GET)
     public String serviceList(ModelMap model) {
-        List<ServiceList> serviceLists = serviceListService.findAllServiceList();
+        User siteUser = userService.findByUserName(getPrincipal());
+        logger.debug("\n\n\nidMis: " + siteUser.getMisId()+"\n\n\n\n");
+        if (userService.isHasRole(siteUser.getUserName(),"DBA")){
+            logger.debug("\n\n\n\nuser has role: DBA\n\n\n\n");
+        }
+        else logger.debug("\n\n\n\nuser hasn't role: DBA\n\n\n\n");
+        List<ServiceList> serviceLists = serviceListService.findAllOpenServiceListByPartnerId(siteUser.getMisId());
+        logger.info(siteUser.getUserName() + " " + siteUser.getMisId());
         if (serviceListService == null) {
-            System.out.println("serviceListService is null");
+            logger.error("serviceListService is null");
         }
         if (serviceLists == null) {
-            System.out.println("serviceList is null");
+            logger.warn("serviceList is null");
         } else
-            System.out.println("Всего услуг:" + serviceLists.size());
+            logger.info("Всего услуг:" + serviceLists.size());
         model.addAttribute("serviceList", serviceLists);
         model.addAttribute("loggedinuser", getPrincipal());
         return "serviceList";
@@ -113,8 +122,8 @@ public class UserController {
 		 * framework as well while still using internationalized messages.
 		 * 
 		 */
-        if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
-            FieldError ssoError = new FieldError("user", "ssoId", messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
+        if (!userService.isUserNameUnique(user.getId(), user.getUserName())) {
+            FieldError ssoError = new FieldError("user", "userName", messageSource.getMessage("non.unique.userName", new String[]{user.getUserName()}, Locale.getDefault()));
             result.addError(ssoError);
             return "registration";
         }
@@ -131,9 +140,9 @@ public class UserController {
     /**
      * This method will provide the medium to update an existing user.
      */
-    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.GET)
-    public String editUser(@PathVariable String ssoId, ModelMap model) {
-        User user = userService.findBySSO(ssoId);
+    @RequestMapping(value = {"/edit-user-{userName}"}, method = RequestMethod.GET)
+    public String editUser(@PathVariable String userName, ModelMap model) {
+        User user = userService.findByUserName(userName);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getPrincipal());
@@ -144,16 +153,16 @@ public class UserController {
      * This method will be called on form submission, handling POST request for
      * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/edit-user-{userName}"}, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
-                             ModelMap model, @PathVariable String ssoId) {
+                             ModelMap model, @PathVariable String userName) {
         if (result.hasErrors()) {
             return "registration";
         }
 
 		/*//Uncomment below 'if block' if you WANT TO ALLOW UPDATING SSO_ID in UI which is a unique key to a User.
-        if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
+        if(!userService.isUserNameUnique(user.getId(), user.getUserName())){
+			FieldError ssoError =new FieldError("user","userName",messageSource.getMessage("non.unique.userName", new String[]{user.getUserName()}, Locale.getDefault()));
 		    result.addError(ssoError);
 			return "registration";
 		}*/
@@ -170,12 +179,12 @@ public class UserController {
     /**
      * This method will delete an user by it's SSOID value.
      */
-    @RequestMapping(value = {"/delete-user-{ssoId}"}, method = RequestMethod.GET)
-    public String deleteUser(@PathVariable String ssoId) {
+    @RequestMapping(value = {"/delete-user-{userName}"}, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable String userName) {
 		/*
 		нужно добавить логер
 		 */
-        userService.deleteUserBySSO(ssoId);
+        userService.deleteUserByUserName(userName);
         return "redirect:/index";
     }
 
