@@ -71,13 +71,13 @@ public class UserController {
     @RequestMapping(value = {"serviceList"}, method = RequestMethod.GET)
     public String serviceList(ModelMap model) {
         User siteUser = userService.findByUserName(getPrincipal());
-        logger.debug("\n\n\nidMis: " + siteUser.getMisId()+"\n\n\n\n");
-        if (userService.isHasRole(siteUser.getUserName(),"DBA")){
-            logger.debug("\n\n\n\nuser has role: DBA\n\n\n\n");
+        List<ServiceList> serviceLists = null;
+        if (userService.isHasRole(siteUser.getUserName(),"USER")){
+            serviceLists = serviceListService.findAllOpenServiceListByPartnerId(siteUser.getMisId());
         }
-        else logger.debug("\n\n\n\nuser hasn't role: DBA\n\n\n\n");
-        List<ServiceList> serviceLists = serviceListService.findAllOpenServiceListByPartnerId(siteUser.getMisId());
-        logger.info(siteUser.getUserName() + " " + siteUser.getMisId());
+        if (userService.isHasRole(siteUser.getUserName(),"SERVICELIST")){
+            serviceLists = serviceListService.findAllOpenServiceList();
+        }
         if (serviceListService == null) {
             logger.error("serviceListService is null");
         }

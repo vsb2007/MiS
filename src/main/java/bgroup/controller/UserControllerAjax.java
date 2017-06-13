@@ -20,11 +20,12 @@ public class UserControllerAjax {
 
     @Autowired
     UserService userService;
+
     @RequestMapping(value = "updatePassword", produces = {"text/plain; charset=UTF-8"})
     @ResponseBody
     public String updatePassword(UsernamePasswordAuthenticationToken principal, HttpServletRequest request) {
         String responseBody = "Error";
-        if (userService.changePassword(request.getParameter("id"))){
+        if (userService.changePassword(request.getParameter("id"))) {
             return "Пароль поменяли";
         }
 

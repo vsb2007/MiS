@@ -41,7 +41,7 @@ public class ServiceList implements Serializable {
     private String partnerFio;
 
     @NotEmpty
-    @Column(name = "PARTNER_WORK", nullable = false,length = 128)
+    @Column(name = "PARTNER_WORK", nullable = false, length = 128)
     private String partnerWork;
 
     @NotEmpty
@@ -49,19 +49,19 @@ public class ServiceList implements Serializable {
     private Integer clientId;
 
     @NotEmpty
-    @Column(name = "CLIENT_FIO", nullable = false,length = 128)
+    @Column(name = "CLIENT_FIO", nullable = false, length = 128)
     private String clientFio;
 
     @NotEmpty
-    @Column(name = "ID_MIS", nullable = false)
+    @Column(name = "ID_MIS", unique = true, nullable = false)
     private Integer idMis;
 
     @NotEmpty
-    @Column(name = "SERVICE_CODE", nullable = false,length = 24)
+    @Column(name = "SERVICE_CODE", nullable = false, length = 24)
     private String serviceCode;
 
     @NotEmpty
-    @Column(name = "SERVICE_NAME", nullable = false,length = 512)
+    @Column(name = "SERVICE_NAME", nullable = false, length = 512)
     private String serviceName;
 
     @NotEmpty
@@ -72,14 +72,17 @@ public class ServiceList implements Serializable {
     @Column(name = "PAID", columnDefinition = "BIT default 0")
     private Boolean paid;
 
-    @Column(name = "DATE_PAID")
-    @Type(type = "org.hibernate.type.TimestampType")
-    private Timestamp datePaid;
-
-
     @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "DELETED", columnDefinition = "BIT default 0")
     private Boolean deleted;
+
+    public String getDateCreateStr() {
+        return getDateCreate().toString().split(" ")[0];
+    }
+
+    public String getDateDoneStr() {
+        return getDateDone().toString().split(" ")[0];
+    }
 
     public Integer getId() {
         return id;
@@ -183,14 +186,6 @@ public class ServiceList implements Serializable {
 
     public void setPaid(Boolean paid) {
         this.paid = paid;
-    }
-
-    public Timestamp getDatePaid() {
-        return datePaid;
-    }
-
-    public void setDatePaid(Timestamp datePaid) {
-        this.datePaid = datePaid;
     }
 
     public Boolean getDeleted() {
