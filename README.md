@@ -21,9 +21,9 @@
 create table APP_USER (
    id BIGINT NOT NULL AUTO_INCREMENT,
    USER_NAME VARCHAR(30) NOT NULL,
-   password VARCHAR(100) NOT NULL,
+   PASSWORD VARCHAR(100) NOT NULL,
    PRIMARY KEY (id),
-   UNIQUE (sso_id)
+   UNIQUE (USER_NAME)
 );
    
 /* USER_PROFILE table contains all possible roles */
